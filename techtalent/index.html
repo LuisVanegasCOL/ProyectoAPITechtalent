@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -8,24 +7,26 @@
     <title>Los Simpsons App</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/assets/icons8-bart-simpson.svg" type="image/svg+xml" />
+    <link rel="icon" href="./assets/icono.png" type="image/svg+xml" />
 
     <!-- Estilos -->
     <link rel="stylesheet" href="./src/style.css" />
   </head>
-  <body class="bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans min-h-screen">
+  <body class="bg-gray-900 text-white font-mono min-h-screen">
     <!-- NAV -->
     <header class="w-full py-5 bg-white/10 backdrop-blur-md shadow-lg sticky top-0 z-50">
-      <div class="container mx-auto flex justify-between items-center px-4">
+      <div class="container mx-auto flex justify-center items-center px-4">
         <a href="/">
-          <img src="/assets/img/logo.svg" alt="Los Simpsons" class="h-12 drop-shadow-[0_0_6px_cyan]" />
+          <img src="./assets/Logo.png" alt="Los Simpsons" class="h-20 drop-shadow-[0_0_6px_cyan]" />
         </a>
       </div>
+      
     </header>
+
 
     <!-- MAIN -->
     <main class="container mx-auto p-6">
-      <h1 class="text-4xl text-cyan-300 font-bold drop-shadow-[0_0_12px_cyan] text-center mb-8">
+      <h1 class="text-3xl font-bold text-yellow-400 text-center mb-8 border-b-2 border-gray-600 pb-2">
         Los Simpsons API - Tailwind + Vite + TS
       </h1>
 
@@ -35,44 +36,62 @@
           id="name-filter"
           type="text"
           placeholder="Buscar personaje..."
-          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          class="w-72 px-4 py-3 text-white bg-gray-800 border-2 border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
         <select
           id="filter-gender"
-          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          class="w-72 px-4 py-3 text-white bg-gray-800 border-2 border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
         >
           <option value="">Todos los géneros</option>
-          <option value="Hombre">Hombre</option>
-          <option value="Mujer">Mujer</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
         </select>
         <select
           id="filter-status"
-          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          class="w-72 px-4 py-3 text-white bg-gray-800 border-2 border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
         >
           <option value="">Todos los estados</option>
           <option value="Vivo">Vivo</option>
-          <option value="Muerto">Muerto</option>
+          <option value="Fallecido">Fallecido</option>
+          <option value="Biblico">Biblico</option>
+          <option value="Robot">Robot</option>
+          <option value="Ficticio">Ficticio</option>
+          <option value="Estatua">Estatua</option>
         </select>
         <input
           id="filter-job"
           type="text"
           placeholder="Filtrar por ocupación..."
-          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          class="w-72 px-4 py-3 text-white bg-gray-800 border-2 border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
       </div>
 
       <!-- Grid de personajes -->
-      <section id="simpsons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></section>
+      <section id="simpsons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Ejemplo de un personaje -->
+        <div class="character-card bg-gray-800 p-4 rounded-md border-2 border-gray-600 shadow-lg flex flex-col items-center">
+          <div class="w-64 h-48 bg-white rounded-lg overflow-hidden flex items-center justify-center mb-4">
+            <img 
+              src="ruta/a/imagen.jpg" 
+              alt="Personaje" 
+              class="object-cover w-full h-full rounded-lg"
+            />
+          </div>
+          <h3 class="text-center text-xl font-semibold text-yellow-400 mb-1">Nombre del personaje</h3>
+          <p class="text-sm text-white text-center">Ocupación: Desconocida</p>
+          <p class="text-sm text-white text-center">Estado: Desconocido</p>
+        </div>
+      </section>
 
       <!-- Paginación -->
       <div id="pagination" class="flex justify-center mt-8 flex-wrap gap-2"></div>
 
       <!-- Detalle del personaje -->
-      <section id="character" class="hidden mt-10 p-6 bg-white/10 rounded-2xl backdrop-blur-md shadow-lg">
+      <section id="character" class="hidden mt-10 p-6 bg-gray-800 rounded-md shadow-lg border-2 border-gray-600">
         <div class="flex flex-col md:flex-row items-center gap-6">
-          <img id="character-image" src="" alt="Imagen personaje" class="w-48 h-auto rounded-lg shadow-lg" />
+          <img id="character-image" src="" alt="Imagen personaje" class="w-48 h-60 object-cover rounded-lg shadow-lg border-2 border-yellow-400" />
           <div class="text-left space-y-2">
-            <h2 id="character-title" class="text-2xl font-bold text-cyan-400">Nombre</h2>
+            <h2 id="character-title" class="text-2xl font-bold text-yellow-400">Nombre</h2>
             <p id="character-genre">Género</p>
             <p id="character-state">Estado</p>
             <p id="character-employment">Ocupación</p>
@@ -98,9 +117,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="text-center mt-10 py-6 bg-white/10 backdrop-blur-md text-sm text-white/70">
+    <footer class="text-center mt-10 py-6 bg-gray-800 border-t-2 border-gray-600 text-sm text-white/70">
       <p>
-        Creado por <strong class="text-cyan-400">Luis Ricardo Vanegas</strong> - 2025 &copy;
+        Creado por <strong class="text-yellow-400">Luis Ricardo Vanegas</strong> - 2025 &copy;
       </p>
     </footer>
 

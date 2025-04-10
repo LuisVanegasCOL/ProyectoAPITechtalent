@@ -2,12 +2,12 @@ import './style.css';
 
 interface Personaje {
   _id: string;
-  Nombre: string;
-  Genero: string;
-  Estado: string;
-  Ocupacion: string;
-  Historia: string;
-  Imagen: string;
+  Nombre?: string;
+  Genero?: string;
+  Estado?: string;
+  Ocupacion?: string;
+  Historia?: string;
+  Imagen?: string;
 }
 
 let personajes: Personaje[] = [];
@@ -21,6 +21,7 @@ const inputFilter = document.getElementById('name-filter') as HTMLInputElement;
 const generoFilter = document.getElementById('filter-gender') as HTMLSelectElement;
 const estadoFilter = document.getElementById('filter-status') as HTMLSelectElement;
 const ocupacionFilter = document.getElementById('filter-job') as HTMLInputElement;
+const errorMessage = document.getElementById('error-message')!;
 
 const detailSection = document.getElementById('character')!;
 const detailImage = document.getElementById('character-image') as HTMLImageElement;
@@ -31,7 +32,7 @@ const detailEmployment = document.getElementById('character-employment')!;
 const detailDescription = document.getElementById('character-description')!;
 const btnCloseDetail = document.getElementById('btn-close-detail')!;
 
-// Fetch personajes
+// Obtener personajes
 async function obtenerPersonajes() {
   try {
     const response = await fetch('https://apisimpsons.fly.dev/api/personajes?limit=1000');
@@ -41,10 +42,11 @@ async function obtenerPersonajes() {
     renderPaginacion();
   } catch (error) {
     console.error('Error al obtener personajes:', error);
+    errorMessage.classList.remove('hidden');
   }
 }
 
-// Filtrar personajes
+// Aplicar filtros
 function aplicarFiltros(): Personaje[] {
   const nombre = inputFilter.value.toLowerCase();
   const genero = generoFilter.value;
@@ -52,10 +54,10 @@ function aplicarFiltros(): Personaje[] {
   const ocupacion = ocupacionFilter.value.toLowerCase();
 
   return personajes.filter((p) => {
-    const coincideNombre = p.Nombre.toLowerCase().includes(nombre);
+    const coincideNombre = (p.Nombre?.toLowerCase() ?? '').includes(nombre);
     const coincideGenero = genero === '' || p.Genero === genero;
     const coincideEstado = estado === '' || p.Estado === estado;
-    const coincideOcupacion = p.Ocupacion.toLowerCase().includes(ocupacion);
+    const coincideOcupacion = (p.Ocupacion?.toLowerCase() ?? '').includes(ocupacion);
 
     return coincideNombre && coincideGenero && coincideEstado && coincideOcupacion;
   });
@@ -70,14 +72,19 @@ function renderPersonajes() {
 
   container.innerHTML = '';
 
+  if (personajesPagina.length === 0) {
+    container.innerHTML = '<p class="text-center text-gray-400 col-span-3">No se encontraron personajes.</p>';
+    return;
+  }
+
   personajesPagina.forEach((personaje) => {
     const card = document.createElement('div');
     card.className = 'bg-[#1a1a2e] p-4 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition cursor-pointer';
     card.innerHTML = `
-      <img src="${personaje.Imagen}" alt="${personaje.Nombre}" class="w-full h-64 object-cover rounded-lg mb-4">
-      <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre}</h3>
-      <p class="text-sm">Ocupación: ${personaje.Ocupacion}</p>
-      <p class="text-sm">Estado: ${personaje.Estado}</p>
+      <img src="${personaje.Imagen ?? ''}" alt="${personaje.Nombre ?? 'Sin nombre'}" class="w-500% h-64 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre ?? 'Desconocido'}</h3>
+      <p class="text-sm">Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}</p>
+      <p class="text-sm">Estado: ${personaje.Estado ?? 'Desconocido'}</p>
     `;
     card.addEventListener('click', () => mostrarDetalle(personaje));
     container.appendChild(card);
@@ -108,12 +115,12 @@ function renderPaginacion() {
 
 // Mostrar detalle
 function mostrarDetalle(personaje: Personaje) {
-  detailImage.src = personaje.Imagen;
-  detailTitle.textContent = personaje.Nombre;
-  detailGenre.textContent = `Género: ${personaje.Genero}`;
-  detailState.textContent = `Estado: ${personaje.Estado}`;
-  detailEmployment.textContent = `Ocupación: ${personaje.Ocupacion}`;
-  detailDescription.textContent = personaje.Historia;
+  detailImage.src = personaje.Imagen ?? '';
+  detailTitle.textContent = personaje.Nombre ?? 'Sin nombre';
+  detailGenre.textContent = `Género: ${personaje.Genero ?? 'Desconocido'}`;
+  detailState.textContent = `Estado: ${personaje.Estado ?? 'Desconocido'}`;
+  detailEmployment.textContent = `Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}`;
+  detailDescription.textContent = personaje.Historia ?? 'Sin historia disponible.';
   detailSection.classList.remove('hidden');
   window.scrollTo({ top: detailSection.offsetTop - 100, behavior: 'smooth' });
 }
