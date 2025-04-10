@@ -1,24 +1,136 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import './style.css';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+interface Personaje {
+  _id: string;
+  Nombre: string;
+  Genero: string;
+  Estado: string;
+  Ocupacion: string;
+  Historia: string;
+  Imagen: string;
+}
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+let personajes: Personaje[] = [];
+let paginaActual = 1;
+const personajesPorPagina = 9;
+
+// Elementos del DOM
+const container = document.getElementById('simpsons-container')!;
+const pagination = document.getElementById('pagination')!;
+const inputFilter = document.getElementById('name-filter') as HTMLInputElement;
+const generoFilter = document.getElementById('filter-gender') as HTMLSelectElement;
+const estadoFilter = document.getElementById('filter-status') as HTMLSelectElement;
+const ocupacionFilter = document.getElementById('filter-job') as HTMLInputElement;
+
+const detailSection = document.getElementById('character')!;
+const detailImage = document.getElementById('character-image') as HTMLImageElement;
+const detailTitle = document.getElementById('character-title')!;
+const detailGenre = document.getElementById('character-genre')!;
+const detailState = document.getElementById('character-state')!;
+const detailEmployment = document.getElementById('character-employment')!;
+const detailDescription = document.getElementById('character-description')!;
+const btnCloseDetail = document.getElementById('btn-close-detail')!;
+
+// Fetch personajes
+async function obtenerPersonajes() {
+  try {
+    const response = await fetch('https://apisimpsons.fly.dev/api/personajes?limit=1000');
+    const data = await response.json();
+    personajes = data.docs;
+    renderPersonajes();
+    renderPaginacion();
+  } catch (error) {
+    console.error('Error al obtener personajes:', error);
+  }
+}
+
+// Filtrar personajes
+function aplicarFiltros(): Personaje[] {
+  const nombre = inputFilter.value.toLowerCase();
+  const genero = generoFilter.value;
+  const estado = estadoFilter.value;
+  const ocupacion = ocupacionFilter.value.toLowerCase();
+
+  return personajes.filter((p) => {
+    const coincideNombre = p.Nombre.toLowerCase().includes(nombre);
+    const coincideGenero = genero === '' || p.Genero === genero;
+    const coincideEstado = estado === '' || p.Estado === estado;
+    const coincideOcupacion = p.Ocupacion.toLowerCase().includes(ocupacion);
+
+    return coincideNombre && coincideGenero && coincideEstado && coincideOcupacion;
+  });
+}
+
+// Renderizar personajes
+function renderPersonajes() {
+  const filtrados = aplicarFiltros();
+  const inicio = (paginaActual - 1) * personajesPorPagina;
+  const fin = inicio + personajesPorPagina;
+  const personajesPagina = filtrados.slice(inicio, fin);
+
+  container.innerHTML = '';
+
+  personajesPagina.forEach((personaje) => {
+    const card = document.createElement('div');
+    card.className = 'bg-[#1a1a2e] p-4 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition cursor-pointer';
+    card.innerHTML = `
+      <img src="${personaje.Imagen}" alt="${personaje.Nombre}" class="w-full h-64 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre}</h3>
+      <p class="text-sm">Ocupación: ${personaje.Ocupacion}</p>
+      <p class="text-sm">Estado: ${personaje.Estado}</p>
+    `;
+    card.addEventListener('click', () => mostrarDetalle(personaje));
+    container.appendChild(card);
+  });
+}
+
+// Renderizar paginación
+function renderPaginacion() {
+  const totalFiltrados = aplicarFiltros().length;
+  const totalPaginas = Math.ceil(totalFiltrados / personajesPorPagina);
+
+  pagination.innerHTML = '';
+
+  for (let i = 1; i <= totalPaginas; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i.toString();
+    btn.className = `px-4 py-2 rounded-lg ${
+      i === paginaActual ? 'bg-cyan-500 text-white' : 'bg-white text-black'
+    } hover:bg-cyan-600 transition`;
+    btn.addEventListener('click', () => {
+      paginaActual = i;
+      renderPersonajes();
+      renderPaginacion();
+    });
+    pagination.appendChild(btn);
+  }
+}
+
+// Mostrar detalle
+function mostrarDetalle(personaje: Personaje) {
+  detailImage.src = personaje.Imagen;
+  detailTitle.textContent = personaje.Nombre;
+  detailGenre.textContent = `Género: ${personaje.Genero}`;
+  detailState.textContent = `Estado: ${personaje.Estado}`;
+  detailEmployment.textContent = `Ocupación: ${personaje.Ocupacion}`;
+  detailDescription.textContent = personaje.Historia;
+  detailSection.classList.remove('hidden');
+  window.scrollTo({ top: detailSection.offsetTop - 100, behavior: 'smooth' });
+}
+
+// Cerrar detalle
+btnCloseDetail.addEventListener('click', () => {
+  detailSection.classList.add('hidden');
+});
+
+// Listeners para filtros
+[inputFilter, generoFilter, estadoFilter, ocupacionFilter].forEach((input) => {
+  input.addEventListener('input', () => {
+    paginaActual = 1;
+    renderPersonajes();
+    renderPaginacion();
+  });
+});
+
+// Inicializar
+obtenerPersonajes();

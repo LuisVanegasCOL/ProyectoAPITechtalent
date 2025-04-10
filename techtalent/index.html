@@ -1,22 +1,110 @@
-<!doctype html>
-<html>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./src/style.css" rel="stylesheet">
-</head>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="App de Los Simpsons con Tailwind, TypeScript y Vite" />
+    <title>Los Simpsons App</title>
 
-<body>
-  <h1
-  class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-black md:text-5xl lg:text-6xl">
- Hola Mundo Con Tailwind + Vite + TS
-</h1>
-<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-dark-400">
-  Texto ejemplo 1
-</p>
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/icons8-bart-simpson.svg" type="image/svg+xml" />
 
+    <!-- Estilos -->
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body class="bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans min-h-screen">
+    <!-- NAV -->
+    <header class="w-full py-5 bg-white/10 backdrop-blur-md shadow-lg sticky top-0 z-50">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <a href="/">
+          <img src="/assets/img/logo.svg" alt="Los Simpsons" class="h-12 drop-shadow-[0_0_6px_cyan]" />
+        </a>
+      </div>
+    </header>
 
-</body>
+    <!-- MAIN -->
+    <main class="container mx-auto p-6">
+      <h1 class="text-4xl text-cyan-300 font-bold drop-shadow-[0_0_12px_cyan] text-center mb-8">
+        Los Simpsons API - Tailwind + Vite + TS
+      </h1>
 
+      <!-- Filtros -->
+      <div class="flex flex-col md:flex-row justify-center gap-4 mb-8">
+        <input
+          id="name-filter"
+          type="text"
+          placeholder="Buscar personaje..."
+          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        />
+        <select
+          id="filter-gender"
+          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        >
+          <option value="">Todos los géneros</option>
+          <option value="Hombre">Hombre</option>
+          <option value="Mujer">Mujer</option>
+        </select>
+        <select
+          id="filter-status"
+          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        >
+          <option value="">Todos los estados</option>
+          <option value="Vivo">Vivo</option>
+          <option value="Muerto">Muerto</option>
+        </select>
+        <input
+          id="filter-job"
+          type="text"
+          placeholder="Filtrar por ocupación..."
+          class="w-72 px-4 py-3 text-white bg-[#1a1a2e] border-2 border-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        />
+      </div>
+
+      <!-- Grid de personajes -->
+      <section id="simpsons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></section>
+
+      <!-- Paginación -->
+      <div id="pagination" class="flex justify-center mt-8 flex-wrap gap-2"></div>
+
+      <!-- Detalle del personaje -->
+      <section id="character" class="hidden mt-10 p-6 bg-white/10 rounded-2xl backdrop-blur-md shadow-lg">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <img id="character-image" src="" alt="Imagen personaje" class="w-48 h-auto rounded-lg shadow-lg" />
+          <div class="text-left space-y-2">
+            <h2 id="character-title" class="text-2xl font-bold text-cyan-400">Nombre</h2>
+            <p id="character-genre">Género</p>
+            <p id="character-state">Estado</p>
+            <p id="character-employment">Ocupación</p>
+            <p id="character-description" class="mt-4">Descripción</p>
+          </div>
+        </div>
+        <div class="text-right mt-4">
+          <button id="btn-close-detail" class="text-red-400 hover:text-red-600 transition flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Cerrar
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center mt-10 py-6 bg-white/10 backdrop-blur-md text-sm text-white/70">
+      <p>
+        Creado por <strong class="text-cyan-400">Luis Ricardo Vanegas</strong> - 2025 &copy;
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="./src/main.ts"></script>
+  </body>
 </html>
