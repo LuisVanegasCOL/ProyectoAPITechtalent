@@ -4,10 +4,24 @@
 
 body {
   font-family: 'Orbitron', sans-serif;
+  cursor: url('https://cdn.custom-cursor.com/db/14809/32/simpsons-evil-homer-pointer.png'), auto;
 }
+  ::selection {
+    cursor: url('https://cdn.custom-cursor.com/db/pointer/32/The_Simpsons_GrandpaPointer.png'), auto;
+  } 
+  a:hover {
+    cursor: url('https://cdn.custom-cursor.com/db/17027/32/the-simpsons-hans-moleman-and-cane-pointer.png'), auto;
+  }
+  a:active {
+    cursor: url('https://cdn.custom-cursor.com/db/17027/32/the-simpsons-hans-moleman-and-cane-pointer.png'), auto;
+  }
+  a:focus {
+    cursor: url('https://cdn.custom-cursor.com/db/17027/32/the-simpsons-hans-moleman-and-cane-pointer.png'), auto;
+  }
 
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
 }
 
 .card:hover {
@@ -29,3 +43,4 @@ body {
 .dark .page-btn {
   background-color: #1e40af;
 }
+
