@@ -95,6 +95,7 @@ function renderPersonajes() {
       mostrarDetalle(personaje);
     });
     container.appendChild(card);
+
   });
 }
 
