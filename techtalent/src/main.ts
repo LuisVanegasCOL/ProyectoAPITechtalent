@@ -1,4 +1,5 @@
 import './style.css';
+import clickSoundFile from '../assets/soundsFX/Chupete-de-Maggie.mp3';
 
 interface Personaje {
   _id: string;
@@ -13,6 +14,8 @@ interface Personaje {
 let personajes: Personaje[] = [];
 let paginaActual = 1;
 const personajesPorPagina = 9;
+const clickSound = new Audio(clickSoundFile);
+
 
 // Elementos del DOM
 const container = document.getElementById('simpsons-container')!;
@@ -86,7 +89,11 @@ function renderPersonajes() {
       <p class="text-sm">Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}</p>
       <p class="text-sm">Estado: ${personaje.Estado ?? 'Desconocido'}</p>
     `;
-    card.addEventListener('click', () => mostrarDetalle(personaje));
+    card.addEventListener('click', () => {
+      clickSound.currentTime = 0; // Reinicia el sonido si se está reproduciendo
+      clickSound.play();
+      mostrarDetalle(personaje);
+    });
     container.appendChild(card);
   });
 }
