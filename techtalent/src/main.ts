@@ -1,4 +1,5 @@
 import './style.css';
+import clickSoundFile from '../assets/soundsFX/Chupete-de-Maggie.mp3';
 
 interface Personaje {
   _id: string;
@@ -8,12 +9,13 @@ interface Personaje {
   Ocupacion?: string;
   Historia?: string;
   Imagen?: string;
-  favorito?: boolean; // Nueva propiedad para marcar si es favorito
 }
 
 let personajes: Personaje[] = [];
 let paginaActual = 1;
 const personajesPorPagina = 9;
+const clickSound = new Audio(clickSoundFile);
+
 
 // Elementos del DOM
 const container = document.getElementById('simpsons-container')!;
@@ -32,8 +34,6 @@ const detailState = document.getElementById('character-state')!;
 const detailEmployment = document.getElementById('character-employment')!;
 const detailDescription = document.getElementById('character-description')!;
 const btnCloseDetail = document.getElementById('btn-close-detail')!;
-const showFavoritesBtn = document.getElementById('show-favorites')!;
-const clearButton = document.getElementById('clear-characters')!;
 
 // Obtener personajes
 async function obtenerPersonajes() {
@@ -41,10 +41,6 @@ async function obtenerPersonajes() {
     const response = await fetch('https://apisimpsons.fly.dev/api/personajes?limit=1000');
     const data = await response.json();
     personajes = data.docs;
-    // Inicializar favoritos como falso
-    personajes.forEach(personaje => {
-      personaje.favorito = false;
-    });
     renderPersonajes();
     renderPaginacion();
   } catch (error) {
@@ -92,20 +88,12 @@ function renderPersonajes() {
       <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre ?? 'Desconocido'}</h3>
       <p class="text-sm">Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}</p>
       <p class="text-sm">Estado: ${personaje.Estado ?? 'Desconocido'}</p>
-      <button class="favorite-btn ${personaje.favorito ? 'bg-yellow-500' : 'bg-gray-500'} text-white px-2 py-1 rounded-full mt-2">
-        ${personaje.favorito ? '★ ' : '☆'}
-      </button>
     `;
-
-    // Evento para marcar o desmarcar favorito
-    const btnFavorite = card.querySelector('.favorite-btn')!;
-    btnFavorite.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevenir que se abra el detalle del personaje al hacer clic en el botón
-      personaje.favorito = !personaje.favorito;
-      renderPersonajes(); // Re-renderizar para actualizar el estado del botón
+    card.addEventListener('click', () => {
+      clickSound.currentTime = 0; // Reinicia el sonido si se está reproduciendo
+      clickSound.play();
+      mostrarDetalle(personaje);
     });
-
-    card.addEventListener('click', () => mostrarDetalle(personaje));
     container.appendChild(card);
   });
 }
@@ -141,54 +129,22 @@ function mostrarDetalle(personaje: Personaje) {
   detailEmployment.textContent = `Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}`;
   detailDescription.textContent = personaje.Historia ?? 'Sin historia disponible.';
   detailSection.classList.remove('hidden');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: detailSection.offsetTop - 100, behavior: 'smooth' });
 }
 
-// Cerrar ventana de detalle
+// Cerrar detalle
 btnCloseDetail.addEventListener('click', () => {
   detailSection.classList.add('hidden');
 });
 
-// Mostrar favoritos
-showFavoritesBtn.addEventListener('click', () => {
-  const favoritos = personajes.filter((personaje) => personaje.favorito);
-  if (favoritos.length === 0) {
-    alert('No tienes personajes favoritos');
-    return;
-  }
-  // Limpiar contenedor y mostrar solo los personajes favoritos
-  container.innerHTML = '';
-  favoritos.forEach((personaje) => {
-    const card = document.createElement('div');
-    card.className = 'bg-[#1a1a2e] p-4 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition cursor-pointer';
-    card.innerHTML = `
-      <img src="${personaje.Imagen ?? ''}" alt="${personaje.Nombre ?? 'Sin nombre'}" class="w-500% h-64 object-cover rounded-lg mb-4">
-      <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre ?? 'Desconocido'}</h3>
-      <p class="text-sm">Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}</p>
-      <p class="text-sm">Estado: ${personaje.Estado ?? 'Desconocido'}</p>
-    `;
-    card.addEventListener('click', () => mostrarDetalle(personaje));
-    container.appendChild(card);
+// Listeners para filtros
+[inputFilter, generoFilter, estadoFilter, ocupacionFilter].forEach((input) => {
+  input.addEventListener('input', () => {
+    paginaActual = 1;
+    renderPersonajes();
+    renderPaginacion();
   });
 });
 
-// Limpiar la pantalla
-clearButton.addEventListener('click', () => {
-  // Resetear los personajes y sus favoritos
-  personajes.forEach((personaje) => {
-    personaje.favorito = false;
-  });
-
-  // Limpiar el contenedor y la paginación
-  container.innerHTML = '';
-  pagination.innerHTML = '';
-
-  // Recargar los personajes sin filtros aplicados
-  paginaActual = 1; // Volver a la primera página
-  renderPersonajes();
-  renderPaginacion();
-});
-
-
-// Inicializar la aplicación
+// Inicializar
 obtenerPersonajes();
