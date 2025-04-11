@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
+
+
+ 
+  
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +16,7 @@
     <!-- Estilos -->
     <link rel="stylesheet" href="./src/style.css" />
   </head>
-  <body class="bg-gray-900 text-white font-mono min-h-screen">
+  <body class="bg-gray-900 text-white font-mono min-h-screen cursor-personalizado...">
     <!-- NAV -->
     <header class="w-full py-5 bg-white/10 backdrop-blur-md shadow-lg sticky top-0 z-50">
       <div class="container mx-auto flex justify-center items-center px-4">
@@ -77,15 +81,27 @@
               class="object-cover w-full h-full rounded-lg"
             />
           </div>
-          <h3 class="text-center text-xl font-semibold text-yellow-400 mb-1">Nombre del personaje</h3>
-          <p class="text-sm text-white text-center">Ocupación: Desconocida</p>
-          <p class="text-sm text-white text-center">Estado: Desconocido</p>
+        
+          <!-- Cambia tamaño/alineación por vista -->
+          <h3 class="text-center text-lg sm:text-xl md:text-2xl font-semibold text-yellow-400 mb-1">
+            Nombre del personaje
+          </h3>
+        
+          <p class="text-xs sm:text-sm md:text-base text-white text-left sm:text-center">
+            Ocupación: Desconocida
+          </p>
+          
+          <p class="text-xs sm:text-sm md:text-base text-white text-left sm:text-center">
+            Estado: Desconocido
+          </p>
         </div>
+        
       </section>
 
      
 
       <!-- Detalle del personaje -->
+      
       <section id="character" class="hidden mt-10 p-6 bg-gray-800 rounded-md shadow-lg border-2 border-gray-600">
         <div class="flex flex-col md:flex-row items-center gap-6">
           <img id="character-image" src="" alt="Imagen personaje" class="w-48 h-60 object-cover rounded-lg shadow-lg border-2 border-yellow-400" />
@@ -113,6 +129,7 @@
           </button>
         </div>
       </section>
+      </div>
        <!-- Paginación -->
        <div id="pagination" class="flex justify-center mt-8 flex-wrap gap-2"></div>
     </main>
