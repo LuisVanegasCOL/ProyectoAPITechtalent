@@ -13,9 +13,9 @@ interface Personaje {
 
 let personajes: Personaje[] = [];
 let paginaActual = 1;
-const personajesPorPagina = 9;
+const personajesPorPagina = 50;
 const clickSound = new Audio(clickSoundFile);
-
+const personajesFavoritos = new Set<string>();
 
 // Elementos del DOM
 const container = document.getElementById('simpsons-container')!;
@@ -88,12 +88,20 @@ function renderPersonajes() {
       <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre ?? 'Desconocido'}</h3>
       <p class="text-sm">Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}</p>
       <p class="text-sm">Estado: ${personaje.Estado ?? 'Desconocido'}</p>
+      <button class="fav-button bg-yellow-400 text-black px-4 py-2 rounded mt-2 hover:bg-yellow-300">${personajesFavoritos.has(personaje._id) ? '💖' : '🤍'}</button>
     `;
+    const botonFav = card.querySelector('.fav-button') as HTMLButtonElement;
+    botonFav.addEventListener('click', (event) => {
+      event.stopPropagation(); // Evita que el click en el botón se propague al card
+      toggleFavorito(personaje._id, botonFav);
+    });
+
     card.addEventListener('click', () => {
       clickSound.currentTime = 0; // Reinicia el sonido si se está reproduciendo
       clickSound.play();
       mostrarDetalle(personaje);
     });
+
     container.appendChild(card);
   });
 }
@@ -144,6 +152,36 @@ btnCloseDetail.addEventListener('click', () => {
     renderPersonajes();
     renderPaginacion();
   });
+});
+
+// Favoritos Funcionalidad
+function toggleFavorito(id: string, boton: HTMLElement | null): void {
+  if (personajesFavoritos.has(id)) {
+    personajesFavoritos.delete(id);
+    if (boton) boton.textContent = '🤍';
+  } else {
+    personajesFavoritos.add(id);
+    if (boton) boton.textContent = '💖';
+  }
+}
+
+// Botones para mostrar favoritos y limpiar pantalla
+const showFavoritesButton = document.getElementById('show-favorites') as HTMLButtonElement;
+const clearCharactersButton = document.getElementById('clear-characters') as HTMLButtonElement;
+
+showFavoritesButton.addEventListener('click', () => {
+  const personajesFavoritosArray = personajes.filter((p) => personajesFavoritos.has(p._id));
+  personajes = personajesFavoritosArray;
+  renderPersonajes();
+  renderPaginacion();
+});
+
+clearCharactersButton.addEventListener('click', () => {
+  personajes = [];
+  personajesFavoritos.clear(); // Limpiar los favoritos
+  renderPersonajes();
+  renderPaginacion();
+  obtenerPersonajes(); // Volver a cargar los personajes sin favoritos seleccionados
 });
 
 // Inicializar
