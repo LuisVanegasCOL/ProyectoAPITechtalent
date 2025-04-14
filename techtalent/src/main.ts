@@ -1,5 +1,5 @@
 import './style.css';
-import clickSoundFile from '../assets/soundsFX/Chupete-de-Maggie.mp3';
+
 
 interface Personaje {
   _id: string;
@@ -14,7 +14,6 @@ interface Personaje {
 let personajes: Personaje[] = [];
 let paginaActual = 1;
 const personajesPorPagina = 50;
-const clickSound = new Audio(clickSoundFile);
 const personajesFavoritos = new Set<string>();
 
 // Elementos del DOM
@@ -97,8 +96,7 @@ function renderPersonajes() {
     });
 
     card.addEventListener('click', () => {
-      clickSound.currentTime = 0; // Reinicia el sonido si se está reproduciendo
-      clickSound.play();
+
       mostrarDetalle(personaje);
     });
 
