@@ -101,6 +101,7 @@ function renderPersonajes() {
     });
 
     container.appendChild(card);
+
   });
 }
 
