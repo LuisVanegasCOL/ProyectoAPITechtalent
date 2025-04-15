@@ -136,7 +136,7 @@ function mostrarDetalle(personaje: Personaje) {
   detailEmployment.textContent = `Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}`;
   detailDescription.textContent = personaje.Historia ?? 'Sin historia disponible.';
   detailSection.classList.remove('hidden');
-  window.scrollTo({ top: detailSection.offsetTop - 100, behavior: 'smooth' });
+  
 }
 
 // Cerrar detalle
@@ -181,6 +181,56 @@ clearCharactersButton.addEventListener('click', () => {
   renderPersonajes();
   renderPaginacion();
   obtenerPersonajes(); // Volver a cargar los personajes sin favoritos seleccionados
+});
+import { SoundManager } from './SoundManager';
+
+// Rutas de tus sonidos y pistas
+const soundManager = new SoundManager(
+  [
+    'public/audio/The-Simpsons.mp3',
+    'public/audio/Trapped Like Carrots.mp3',
+    'public/audio/Thank You Boob Lady.mp3',
+    'public/audio/Doomsday Is Family Time.mp3'
+  ],
+  'public/audio/click.mp3',
+  'public/audio/Chupete-de-Maggie.mp3'
+);
+
+// Eventos para tarjetas
+container.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).closest('.fav-button')) return;
+  soundManager.playSfxCard();
+});
+
+// Eventos para paginación
+pagination.addEventListener('click', () => {
+  soundManager.playSfxPage();
+});
+
+// Controles de música
+(document.getElementById('play-music') as HTMLButtonElement).addEventListener('click', () => {
+  soundManager.playMusic();
+});
+
+(document.getElementById('pause-music') as HTMLButtonElement).addEventListener('click', () => {
+  soundManager.pauseMusic();
+});
+
+(document.getElementById('next-track') as HTMLButtonElement).addEventListener('click', () => {
+  soundManager.nextTrack();
+});
+
+(document.getElementById('prev-track') as HTMLButtonElement).addEventListener('click', () => {
+  soundManager.prevTrack();
+});
+
+(document.getElementById('mute-music') as HTMLButtonElement).addEventListener('click', () => {
+  soundManager.toggleMute();
+});
+
+(document.getElementById('volume-slider') as HTMLInputElement).addEventListener('input', (e) => {
+  const value = parseFloat((e.target as HTMLInputElement).value);
+  soundManager.setVolume(value);
 });
 
 // Inicializar
