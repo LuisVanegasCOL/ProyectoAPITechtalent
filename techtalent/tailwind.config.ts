@@ -6,6 +6,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         simpsons: ['Simpsonfont', 'sans-serif'], // Agrega la fuente aquí
+        orbitron: ['Orbitron', 'sans-serif'],
       },
     },
   },

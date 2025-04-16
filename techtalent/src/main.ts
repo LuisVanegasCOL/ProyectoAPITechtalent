@@ -16,7 +16,8 @@ let paginaActual = 1;
 const personajesPorPagina = 50;
 const personajesFavoritos = new Set<string>();
 
-// Elementos del DOM
+
+
 const container = document.getElementById('simpsons-container')!;
 const pagination = document.getElementById('pagination')!;
 const inputFilter = document.getElementById('name-filter') as HTMLInputElement;
@@ -33,6 +34,8 @@ const detailState = document.getElementById('character-state')!;
 const detailEmployment = document.getElementById('character-employment')!;
 const detailDescription = document.getElementById('character-description')!;
 const btnCloseDetail = document.getElementById('btn-close-detail')!;
+
+
 
 // Obtener personajes
 async function obtenerPersonajes() {
@@ -81,25 +84,35 @@ function renderPersonajes() {
 
   personajesPagina.forEach((personaje) => {
     const card = document.createElement('div');
-    card.className = 'bg-[#1a1a2e] p-4 rounded-xl shadow-lg hover:shadow-cyan-500/50 transition cursor-pointer';
+    card.className = 'bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl transition-transform transform hover:scale-105 cursor-pointer';
+    const ocupacionLimitada: string = (personaje.Ocupacion ?? 'Desconocida').slice(0, 50); // Limitar ocupación a 50 caracteres
     card.innerHTML = `
-      <img src="${personaje.Imagen ?? ''}" alt="${personaje.Nombre ?? 'Sin nombre'}" class="w-500% h-64 object-cover rounded-lg mb-4">
-      <h3 class="text-xl font-bold text-cyan-300 mb-2">${personaje.Nombre ?? 'Desconocido'}</h3>
-      <p class="text-sm">Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}</p>
-      <p class="text-sm">Estado: ${personaje.Estado ?? 'Desconocido'}</p>
-      <button class="fav-button bg-yellow-400 text-black px-4 py-2 rounded mt-2 hover:bg-yellow-300">${personajesFavoritos.has(personaje._id) ? '💖' : '🤍'}</button>
+      <div class="flex flex-col md:flex-row gap-4 items-center">
+        <div class="w-full md:w-56 h-56 bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="${personaje.Imagen ?? ''}" alt="${personaje.Nombre ?? 'Sin nombre'}" class="object-contain w-full h-full" />
+        </div>
+        <div class="flex-1 text-left">
+          <h3 class="text-xl font-bold text-yellow-500 mb-2">${personaje.Nombre ?? 'Desconocido'}</h3>
+          <p class="text-white text-sm">Ocupación: <span class="text-cyan-400">${ocupacionLimitada}</span></p>
+          <p class="text-white text-sm">Estado: <span class="text-pink-400">${personaje.Estado ?? 'Desconocido'}</span></p>
+        </div>
+        <button class="fav-button text-2xl self-start text-white hover:text-red-400 transition">
+          ${personajesFavoritos.has(personaje._id) ? '❤️' : '🤍'}
+        </button>
+      </div>
     `;
+  
+    
     const botonFav = card.querySelector('.fav-button') as HTMLButtonElement;
     botonFav.addEventListener('click', (event) => {
       event.stopPropagation(); // Evita que el click en el botón se propague al card
       toggleFavorito(personaje._id, botonFav);
     });
-
+  
     card.addEventListener('click', () => {
-
       mostrarDetalle(personaje);
     });
-
+  
     container.appendChild(card);
   });
 }
@@ -128,20 +141,45 @@ function renderPaginacion() {
 
 // Mostrar detalle
 function mostrarDetalle(personaje: Personaje) {
+  // Actualizamos los elementos de detalle
   detailImage.src = personaje.Imagen ?? '';
   detailTitle.textContent = personaje.Nombre ?? 'Sin nombre';
   detailGenre.textContent = `Género: ${personaje.Genero ?? 'Desconocido'}`;
   detailState.textContent = `Estado: ${personaje.Estado ?? 'Desconocido'}`;
   detailEmployment.textContent = `Ocupación: ${personaje.Ocupacion ?? 'Desconocida'}`;
-  detailDescription.textContent = personaje.Historia ?? 'Sin historia disponible.';
-  detailSection.classList.remove('hidden');
-  window.scrollTo({ top: detailSection.offsetTop - 100, behavior: 'smooth' });
+ // Limitamos la descripción a 100 caracteres
+ const descripcionLimitada = (personaje.Historia ?? 'Sin historia disponible.').substring(0, 200);
+ const descripcionFinal = personaje.Historia && personaje.Historia.length > 200 ? descripcionLimitada + '...' : descripcionLimitada;
+ detailDescription.textContent = descripcionFinal;
+// Estilo para el título, más acorde a la temática de Los Simpsons
+detailTitle.classList.add('text-4xl', 'font-bold', 'text-yellow-500', 'hover:text-yellow-700', 'hover:scale-110', 'transition-all', 'duration-300', 'drop-shadow-2xl');
+  
+// Estilo para el género, con un toque divertido
+detailGenre.classList.add('text-2xl', 'text-blue-400', 'hover:text-blue-600', 'transition-all', 'duration-300', 'italic');
+
+// Estilo para el estado, añadiendo un color más vivo
+detailState.classList.add('text-2xl', 'text-pink-400', 'hover:text-pink-600', 'transition-all', 'duration-300');
+
+// Estilo para la ocupación, con un toque brillante
+detailEmployment.classList.add('text-2xl', 'text-green-400', 'hover:text-green-600', 'transition-all', 'duration-300', 'italic');
+
+// Estilo para la descripción, haciéndolo más accesible y llamativo
+detailDescription.classList.add('text-xl', 'text-gray-800', 'hover:text-gray-600', 'transition-all', 'duration-300', 'bg-yellow-100', 'p-4', 'rounded-lg', 'shadow-xl');
+
+// Mostramos la sección de detalles
+detailSection.classList.remove('hidden');
+
+   // Aplicamos efectos al botón de cerrar
+   btnCloseDetail.classList.add('text-5xl', 'text-red-900', 'hover:text-red-800', 'hover:scale-200', 'transition-all', 'duration-300', 'cursor-pointer', 'shadow-lg');
+  
 }
+
 
 // Cerrar detalle
 btnCloseDetail.addEventListener('click', () => {
   detailSection.classList.add('hidden');
 });
+
 
 // Listeners para filtros
 [inputFilter, generoFilter, estadoFilter, ocupacionFilter].forEach((input) => {
@@ -181,6 +219,7 @@ clearCharactersButton.addEventListener('click', () => {
   renderPaginacion();
   obtenerPersonajes(); // Volver a cargar los personajes sin favoritos seleccionados
 });
+
 
 // Inicializar
 obtenerPersonajes();
