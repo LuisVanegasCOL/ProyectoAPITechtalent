@@ -29,7 +29,11 @@
       </a>
       <!-- Boton cambiar temas-->
 
-    
+      <div class="absolute left-4 top-6 flex gap-2">
+        <button id="theme-dark" >🌙</button>
+        <button id="theme-light" >☀️</button>
+        <button id="theme-simpsons" >🍩</button>
+      </div>
 
     </div>
   </header>
@@ -86,39 +90,15 @@
   </button>
 </div>
   <!-- Grid de personajes -->
-<section id="simpsons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-  <!-- Ejemplo de un personaje -->
-  <div class="character-card bg-gray-800 p-4 rounded-md border-2 border-gray-600 shadow-lg flex flex-col">
-    
-    <!-- Contenido horizontal: imagen + info -->
-    <div class="flex flex-col md:flex-row gap-4 w-full">
-      
-      <!-- Contenedor de imagen -->
-      <div class="w-full md:w-48 h-48 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
-        <img src="/techtalent/assets/pngegg.png" alt="Personaje"
-             class="object-contain w-full h-full rounded-lg bg-white" />
-      </div>
-
-      <!-- Info del personaje + botón -->
-      <div class="relative flex-1">
-        <!-- Botón de favorito -->
-        <button class="fav-button absolute top-0 right-0 bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-300">
-          ❤️
-        </button>
-
-        <!-- Información del personaje -->
-        <div class="mt-6 md:mt-0 pr-6">
-          <h3 class="text-xl font-semibold text-yellow-400 mb-1">Nombre del personaje</h3>
-          <p class="text-sm text-white">Ocupación: Desconocida</p>
-          <p class="text-sm text-white">Estado: Desconocido</p>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</section>
-
-
+   
+ 
+  <section id="simpsons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[60vh] place-items-center">
+    <img 
+      src="./assets/cargando.png" 
+      alt="Cargando..." 
+      class="border-2 border-gray-400 rounded-2xl shadow-2xl p-2 bg-gray-900 transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-1 animate-fade-in"
+    >
+  </section>
 
     <!-- Detalle del personaje -->
     <section id="character" class="hidden mt-10 p-6 bg-gray-800 rounded-md shadow-lg border-2 border-gray-600">

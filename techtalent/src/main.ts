@@ -111,8 +111,25 @@ function renderPersonajes() {
   
     card.addEventListener('click', () => {
       mostrarDetalle(personaje);
+
+
+       // Reproducir sonido según el género o grupo
+       if (
+        personaje.Genero && 
+        sonidosPorGenero[personaje.Genero] && 
+        !["Homero Simpson", "Marge Simpson", "Lisa Simpson", "Bart Simpson", "Maggie Simpson"].includes(personaje.Nombre ?? "")
+      ) {
+        // Si el género tiene asignados sonidos, reproducimos uno aleatorio
+        reproducirSonido(sonidosPorGenero[personaje.Genero]);
+      } else if (["Homero Simpson", "Marge Simpson", "Lisa Simpson", "Bart Simpson", "Maggie Simpson"].includes(personaje.Nombre ?? "")) {
+        // Si el personaje pertenece a la familia Simpson
+        reproducirSonido(sonidosFamiliaSimpson);
+      }
     });
   
+
+
+    
     container.appendChild(card);
   });
 }
@@ -210,6 +227,7 @@ showFavoritesButton.addEventListener('click', () => {
   personajes = personajesFavoritosArray;
   renderPersonajes();
   renderPaginacion();
+  
 });
 
 clearCharactersButton.addEventListener('click', () => {
@@ -219,6 +237,28 @@ clearCharactersButton.addEventListener('click', () => {
   renderPaginacion();
   obtenerPersonajes(); // Volver a cargar los personajes sin favoritos seleccionados
 });
+
+
+// SONIDOS // 
+
+// Mapas de sonidos para diferentes filtros y grupos
+const sonidosPorGenero: { [key: string]: string[] } = {
+  "Masculino": ["assets/soundsFX/Chupete-de-Maggie.mp3"],
+  "Femenino": ["assets/soundsFX/homero18.mp3"]
+};
+
+// Sonidos específicos para el grupo familiar
+const sonidosFamiliaSimpson: string[] = [
+  "assets/soundsFX/ay-caramba.mp3", 
+  "assets/soundsFX/homero14.mp3"
+];
+
+// Función para reproducir sonido aleatorio
+function reproducirSonido(sonidos: string[]): void {
+  const sonidoAleatorio = sonidos[Math.floor(Math.random() * sonidos.length)];
+  const audio = new Audio(sonidoAleatorio);
+  audio.play();
+}
 
 
 // Inicializar
