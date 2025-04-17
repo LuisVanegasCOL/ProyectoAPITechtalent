@@ -259,7 +259,20 @@ function reproducirSonido(sonidos: string[]): void {
   const audio = new Audio(sonidoAleatorio);
   audio.play();
 }
+// Obtener el botón y el modal
+const btnPlayPiano = document.getElementById('btn-playpiano') as HTMLButtonElement;
+const modal = document.getElementById('modal') as HTMLDivElement;
+const btnCloseModal = document.getElementById('btn-close-modal') as HTMLButtonElement;
 
+// Función para abrir el modal
+btnPlayPiano.addEventListener('click', () => {
+  modal.classList.remove('hidden');
+});
+
+// Función para cerrar el modal
+btnCloseModal.addEventListener('click', () => {
+  modal.classList.add('hidden');
+});
 
 // Inicializar
 obtenerPersonajes();
