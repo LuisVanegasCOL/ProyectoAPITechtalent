@@ -1,12 +1,20 @@
 {
-  "name": "techtalent",
-  "private": true,
+  "name": "c",
   "version": "0.0.0",
+  "private": true,
+  "description": "Una aplicación web que muestra información sobre los personajes de la serie *Los Simpsons*, utilizando **Tailwind CSS**, **TypeScript**, y **Vite** como herramientas principales. La app permite filtrar personajes por nombre, género, estado y ocupación, mostrando detalles al seleccionar un personaje.",
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "postcss.config.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.3",
+    "@tailwindcss/vite": "^4.1.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
@@ -15,9 +23,5 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
-  },
-  "dependencies": {
-    "@tailwindcss/postcss": "^4.1.3",
-    "@tailwindcss/vite": "^4.1.3"
   }
 }
