@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="custom-cursor" lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +12,7 @@
     <!-- Estilos -->
     <link rel="stylesheet" href="./src/style.css" />
   </head>
+  
   <body class="bg-gray-900 text-white font-mono min-h-screen">
     <!-- NAV -->
     <header class="w-full py-5 bg-white/10 backdrop-blur-md shadow-lg sticky top-0 z-50">
@@ -31,7 +32,7 @@
       </h1>
 
       <!-- Filtros -->
-      <div class="flex flex-col md:flex-row justify-center gap-4 mb-8">
+      <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
         <input
           id="name-filter"
           type="text"
@@ -69,8 +70,8 @@
       <!-- Grid de personajes -->
       <section id="simpsons-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Ejemplo de un personaje -->
-        <div class="character-card bg-gray-800 p-4 rounded-md border-2 border-gray-600 shadow-lg flex flex-col items-center">
-          <div class="w-64 h-48 bg-white rounded-lg overflow-hidden flex items-center justify-center mb-4">
+        <div class="character-card bg-gray-800 p-4 rounded-md border-2 border-gray-600 shadow-lg flex flex-col justify-center items-center">
+          <div class="w-64 h-48 bg-white rounded-lg overflow-hidden flex mb-4">
             <img 
               src="ruta/a/imagen.jpg" 
               alt="Personaje" 
@@ -87,8 +88,8 @@
 
       <!-- Detalle del personaje -->
       <section id="character" class="hidden mt-10 p-6 bg-gray-800 rounded-md shadow-lg border-2 border-gray-600">
-        <div class="flex flex-col md:flex-row items-center gap-6">
-          <img id="character-image" src="" alt="Imagen personaje" class="w-48 h-60 object-cover rounded-lg shadow-lg border-2 border-yellow-400" />
+        <div class="flex flex-col sm:flex-col md:flex-row items-center  gap-6">
+          <img id="character-image" src="" alt="Imagen personaje" class="w-auto h-60 items-center rounded-lg shadow-lg border-2 border-yellow-400" />
           <div class="text-left space-y-2">
             <h2 id="character-title" class="text-2xl font-bold text-yellow-400">Nombre</h2>
             <p id="character-genre">Género</p>

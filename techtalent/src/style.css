@@ -1,12 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.custom-cursor{
+  cursor: url('public/rosqui.jpg'),auto;
+}
 
 body {
   font-family: 'Orbitron', sans-serif;
 }
 
-.card {
+.card {   cursor: url('public/rosqui.jpg'),auto;
+
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
