@@ -141,3 +141,121 @@ btnCloseDetail.addEventListener('click', () => {
 
 // Inicializar
 obtenerPersonajes();
+// Referencias a elementos del DOM
+const pantallaCarga = document.getElementById('pantalla-carga') as HTMLDivElement;
+const contenido = document.getElementById('contenido') as HTMLDivElement;
+const quiz = document.getElementById('quiz') as HTMLDivElement;
+
+const btnEntrar = document.getElementById('btn-entrar') as HTMLButtonElement;
+const btnQuiz = document.getElementById('btn-quiz') as HTMLButtonElement;
+const themeSelector = document.getElementById('theme-selector') as HTMLSelectElement;
+
+const questionElement = document.getElementById('question') as HTMLDivElement;
+const answersElement = document.getElementById('answers') as HTMLDivElement;
+const nextButton = document.getElementById('next-question') as HTMLButtonElement;
+
+interface Character {
+  Nombre: string;
+  Ocupacion?: string;
+  Genero?: string;
+  Estado?: string;
+}
+
+let currentCharacter: Character | null = null;
+
+btnEntrar.addEventListener('click', () => {
+  pantallaCarga.classList.add('hidden');
+  contenido.classList.remove('hidden');
+  quiz.classList.add('hidden');
+});
+
+btnQuiz.addEventListener('click', () => {
+  pantallaCarga.classList.add('hidden');
+  contenido.classList.add('hidden');
+  quiz.classList.remove('hidden');
+  startQuiz();
+});
+
+themeSelector.addEventListener('change', (event: Event) => {
+  const value = (event.target as HTMLSelectElement).value;
+  document.body.classList.remove('inverted', 'theme-3');
+  if (value === '2') {
+    document.body.classList.add('inverted');
+  } else if (value === '3') {
+    document.body.classList.add('theme-3');
+  }
+});
+
+async function fetchRandomCharacter(): Promise<Character> {
+  const skip = Math.floor(Math.random() * 550);
+  const response = await fetch(`https://apisimpsons.fly.dev/api/personajes?limit=10&skip=${skip}`);
+  const data = await response.json();
+  const personajes: Character[] = data.docs;
+
+  if (personajes.length === 0) {
+    throw new Error('No se encontraron personajes');
+  }
+
+  const randomIndex = Math.floor(Math.random() * personajes.length);
+  return personajes[randomIndex];
+}
+
+async function renderQuestion(): Promise<void> {
+  currentCharacter = await fetchRandomCharacter();
+
+  const preguntas = [
+    {
+      texto: `¿Cuál es la ocupación de ${currentCharacter.Nombre}?`,
+      correcta: currentCharacter.Ocupacion || 'Desconocida',
+      opcionesExtra: ['Estudiante', 'Amo de casa', 'Trabajador nuclear', 'Cantante', 'Policía', 'Doctor']
+    },
+    {
+      texto: `¿Cuál es el género de ${currentCharacter.Nombre}?`,
+      correcta: currentCharacter.Genero || 'Desconocido',
+      opcionesExtra: ['Masculino', 'Femenino', 'Robot', 'Otro']
+    },
+    {
+      texto: `¿Cuál es el estado de ${currentCharacter.Nombre}?`,
+      correcta: currentCharacter.Estado || 'Desconocido',
+      opcionesExtra: ['Vivo', 'Fallecido', 'Robot', 'Biblico', 'Estatua']
+    }
+  ];
+
+  const preguntaElegida = preguntas[Math.floor(Math.random() * preguntas.length)];
+  questionElement.textContent = preguntaElegida.texto;
+
+  const opciones: string[] = [preguntaElegida.correcta];
+
+  while (opciones.length < 4) {
+    const extra = preguntaElegida.opcionesExtra[Math.floor(Math.random() * preguntaElegida.opcionesExtra.length)];
+    if (!opciones.includes(extra)) {
+      opciones.push(extra);
+    }
+  }
+
+  opciones.sort(() => Math.random() - 0.5);
+  answersElement.innerHTML = '';
+
+  opciones.forEach(opcion => {
+    const btn = document.createElement('button');
+    btn.textContent = opcion;
+    btn.className = 'bg-gray-700 hover:bg-yellow-400 hover:text-gray-900 text-white px-4 py-2 rounded-md transition';
+    btn.onclick = () => {
+      Array.from(answersElement.children).forEach(b => (b as HTMLButtonElement).disabled = true);
+      if (opcion === preguntaElegida.correcta) {
+        btn.classList.remove('bg-gray-700');
+        btn.classList.add('bg-green-500');
+      } else {
+        btn.classList.remove('bg-gray-700');
+        btn.classList.add('bg-red-500');
+      }
+    };
+    answersElement.appendChild(btn);
+  });
+}
+
+function startQuiz(): void {
+  renderQuestion();
+}
+
+nextButton.addEventListener('click', renderQuestion);

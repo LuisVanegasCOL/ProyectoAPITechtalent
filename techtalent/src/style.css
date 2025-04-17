@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 
-
+body {
+  cursor: url("/assets/cursor.png"), auto;
+}
 body {
   font-family: 'Orbitron', sans-serif;
 }
@@ -31,3 +33,39 @@ body {
 .dark .page-btn {
   background-color: #1e40af;
 }
+/* Estilos para modo invertido (Tema 2) */
+body.inverted {
+  @apply bg-gray-100 text-cyan-400;
+}
+
+.inverted .character-card h3,
+.inverted .character-card p {
+  @apply text-cyan-300;
+}
+
+/* Tema 3 con fondo e imagen */
+.theme-3 {
+  background-image: url('https://www.metro951.com/wp-content/uploads/2014/10/Simpson1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #ffffff;
+}
+
+.theme-3 .character-card {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.theme-3 header,
+.theme-3 footer,
+.theme-3 #character {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.theme-3 h1,
+.theme-3 h2,
+.theme-3 h3,
+.theme-3 p {
+  color: #facc15;
+}
+
