@@ -1,123 +1,136 @@
-# Los Simpsons App
+# 🌟 Los Simpsons App 🌟
 
-Una aplicación web que muestra información sobre los personajes de la serie *Los Simpsons*, utilizando **Tailwind CSS**, **TypeScript**, y **Vite** como herramientas principales. La app permite filtrar personajes por nombre, género, estado y ocupación, mostrando detalles al seleccionar un personaje.
+**Los Simpsons App** es una aplicación web interactiva que permite a los usuarios explorar personajes de la serie *"Los Simpsons"*, realizar quizzes (texto y audio), escuchar sonidos temáticos y disfrutar de una experiencia inmersiva con un diseño moderno y responsivo.
 
-## Estructura del proyecto
+ProyectoAPITechtalent/
+├── techtalent/
+│   ├── .gitignore
+│   ├── home.html
+│   ├── home.js
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── readme.md
+│   ├── tailwind.config.ts
+│   ├── tsconfig.json
+│   ├── assets/
+│   │   ├── bart-removebg-preview_1.png
+│   │   ├── cargando.jpg
+│   │   ├── cargando.png
+│   │   ├── Homer2.png
+│   │   ├── icono.png
+│   │   ├── Logo.png
+│   │   ├── Pianogame.html
+│   │   ├── soundsFX/
+│   │   │   ├── ay-caramba.mp3
+│   │   │   ├── bart_eat_my_shorts.mp3
+│   │   │   ├── Chupete-de-Maggie.mp3
+│   │   │   ├── homer_doh.mp3
+│   │   │   └── ...
+│   ├── public/
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── counter.ts
+│   │   ├── main.ts
+│   │   ├── style.css
+│   │   ├── voiceSearch.ts
+│   │   ├── vite-env.d.ts
+│   └── index.txt
 
-```
-techtalent/
-├── .gitignore
-├── index.html
-├── package.json
-├── postcss.config.js
-├── readme.md
-├── tailwind.config.ts
-├── tsconfig.json
-├── assets/
-│   ├── icono.png
-│   └── Logo.png
-├── public/
-│   └── vite.svg
-├── src/
-│   ├── counter.ts
-│   ├── main.ts
-│   ├── style.css
-│   ├── typescript.svg
-│   └── vite-env.d.ts
-```
+## 📂 Estructura del Proyecto
 
-## Funcionalidades
+## 🛠️ Tecnologías Utilizadas
 
-- **Visualización de personajes:** Muestra una lista de personajes de Los Simpsons obtenidos desde una API.
-- **Filtros dinámicos:** Permite filtrar personajes por nombre, género, estado y ocupación.
-- **Detalle de personajes:** Al hacer clic en un personaje, se muestra información detallada como su imagen, género, estado, ocupación y descripción.
-- **Paginación:** Navegación entre páginas para explorar todos los personajes disponibles.
+### Frontend
+- **HTML5**: Estructura de las páginas.
+- **CSS3 (TailwindCSS)**: Framework para estilización moderna y responsiva.
+- **JavaScript**: Lógica de interacción y manejo de eventos.
+- **TypeScript**: Tipado estático para un código más seguro y mantenible.
 
-## Tecnologías utilizadas
+### Herramientas
+- **Vite**: Herramienta de construcción rápida para desarrollo web.
+- **PostCSS**: Procesador de CSS para optimizar estilos.
+- **Node.js**: Gestión de dependencias y scripts de desarrollo.
 
-- **HTML5:** Estructura básica del documento.
-- **Tailwind CSS:** Framework de diseño para estilizar la aplicación.
-- **TypeScript:** Lenguaje de programación para añadir tipado y mejorar el mantenimiento del código.
-- **Vite:** Herramienta de construcción para acelerar el proceso de desarrollo.
-- **API externa:** Datos obtenidos desde `https://apisimpsons.fly.dev`.
+### Multimedia
+- **Sonidos**: Archivos de audio para efectos y sonidos de personajes.
+- **Imágenes**: Recursos visuales de personajes y elementos temáticos.
 
-## Instalación
-
-### Requisitos previos
-
-- Node.js (preferentemente la última versión LTS).
-- NPM o Yarn para gestionar dependencias.
-
-### Pasos para ejecutar el proyecto
-
-1. **Clona el repositorio:**
-   ```bash
-   git clone https://github.com/tu-usuario/los-simpsons-app.git
-   cd los-simpsons-app
-   ```
-
-2. **Instala las dependencias:**
-   ```bash
-   npm install
-   ```
-
-3. **Inicia el servidor de desarrollo:**
-   ```bash
-   npm run dev
-   ```
-
-4. **Abre la aplicación en tu navegador:**
-   - Ve a `http://localhost:5173` (o el puerto indicado en la consola).
-
-### Scripts disponibles
-
-- `npm run dev`: Inicia el servidor de desarrollo.
-- `npm run build`: Construye la aplicación para producción.
-- `npm run preview`: Previsualiza la aplicación construida.
-
-## Configuración
-
-### Tailwind CSS
-
-El archivo de configuración de Tailwind se encuentra en `tailwind.config.ts`. Puedes personalizar los estilos extendiendo el tema o añadiendo plugins.
-
-### TypeScript
-
-La configuración de TypeScript está definida en `tsconfig.json`. Incluye opciones como `strict` para garantizar un código más seguro y mantenible.
-
-## Archivos principales
-
-### `index.html`
-
-El archivo principal que define la estructura de la aplicación y enlaza los estilos y scripts.
-
-### `src/main.ts`
-
-Contiene la lógica principal de la aplicación, incluyendo:
-
-- Obtención de datos desde la API.
-- Aplicación de filtros.
-- Renderizado de personajes y paginación.
-- Manejo de eventos para mostrar detalles de los personajes.
-
-### `src/style.css`
-
-Define los estilos personalizados utilizando Tailwind CSS.
-
-### `src/counter.ts`
-
-Un archivo de ejemplo que implementa un contador interactivo.
-
-## Recursos
-
-- **API utilizada:** [Simpsons API](https://apisimpsons.fly.dev)
-- **Framework CSS:** [Tailwind CSS](https://tailwindcss.com)
-- **Herramienta de construcción:** [Vite](https://vitejs.dev)
-
-## Autor
-
-Creado por **Luis Ricardo Vanegas** - 2025 &copy;
+### APIs
+- **Simpsons API**: Datos de personajes obtenidos desde [https://apisimpsons.fly.dev](https://apisimpsons.fly.dev).
+- **Web Speech API**: Reconocimiento de voz para búsquedas interactivas.
 
 ---
 
-¡Gracias por usar esta aplicación! Si tienes alguna sugerencia o encuentras un problema, no dudes en abrir un issue o contribuir al proyecto.
+## ✨ Características Principales
+
+### 🎮 Quizzes Interactivos
+
+#### Quiz de Texto
+- Preguntas relacionadas con la serie.
+- Botones para enviar respuestas y reiniciar el quiz.
+
+#### Quiz de Audio
+- Preguntas en formato de audio.
+- Botones para enviar respuestas y reiniciar el quiz.
+
+### 🔍 Exploración de Personajes
+- **Filtros**: Por nombre, género, estado y ocupación.
+- **Paginación**: Navegación entre páginas con un límite de 50 personajes por página.
+- **Favoritos**: Los usuarios pueden marcar personajes como favoritos y visualizarlos en una lista separada.
+
+### 🎤 Búsqueda por Voz
+- Uso de la Web Speech API para buscar personajes mediante comandos de voz.
+
+### 🎵 Sonidos Temáticos
+- **Sonidos por Género**: Reproducción de sonidos específicos según el género del personaje.
+- **Sonidos Familiares**: Efectos de audio exclusivos para los miembros de la familia Simpson.
+
+### 🌗 Modo Oscuro/Claro
+- Alternancia entre temas oscuro y claro.
+- Persistencia del tema seleccionado mediante `localStorage`.
+
+### 🎹 Piano Interactivo
+- Mini-juego de piano integrado en un modal.
+
+---
+
+## 📜 Archivos Clave
+
+### HTML
+- `home.html`: Página principal con botones para quizzes y navegación.
+- `index.html`: Página de exploración de personajes.
+
+### CSS
+- `style.css`: Estilos personalizados utilizando TailwindCSS.
+
+### JavaScript/TypeScript
+- `main.ts`: Lógica principal para la exploración de personajes, filtros, favoritos y reconocimiento de voz.
+- `home.js`: Lógica para los modales de quizzes y navegación.
+- `voiceSearch.ts`: Configuración del reconocimiento de voz.
+
+### Multimedia
+- `assets/`: Carpeta con imágenes y sonidos temáticos.
+
+---
+
+## 🚀 Cómo Ejecutar el Proyecto
+
+### Requisitos Previos
+- Node.js (preferentemente la última versión LTS).
+- NPM o Yarn para gestionar dependencias.
+
+### Pasos
+
+```bash
+# Clonar el repositorio:
+git clone <url-del-repositorio>
+
+# Entrar al directorio:
+cd los-simpsons-app
+
+# Instalar dependencias:
+npm install
+
+# Iniciar el servidor de desarrollo:
+npm run dev
