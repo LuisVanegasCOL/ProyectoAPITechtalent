@@ -1,3 +1,10 @@
+// 👇 Esto va al principio de tu archivo main.ts
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 import './style.css';
 
 
@@ -84,11 +91,11 @@ function renderPersonajes() {
 
   personajesPagina.forEach((personaje) => {
     const card = document.createElement('div');
-    card.className = 'bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl transition-transform transform hover:scale-105 cursor-pointer';
+    card.className = 'dark:bg-gray-800 p-4 rounded-2xl shadow-xl transition-transform transform hover:scale-105 cursor-pointer';
     const ocupacionLimitada: string = (personaje.Ocupacion ?? 'Desconocida').slice(0, 50); // Limitar ocupación a 50 caracteres
     card.innerHTML = `
       <div class="flex flex-col md:flex-row gap-4 items-center">
-        <div class="w-full md:w-56 h-56 bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="w-full md:w-56 h-56 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center">
           <img src="${personaje.Imagen ?? ''}" alt="${personaje.Nombre ?? 'Sin nombre'}" class="object-contain w-full h-full" />
         </div>
         <div class="flex-1 text-left">
@@ -274,5 +281,50 @@ btnCloseModal.addEventListener('click', () => {
   modal.classList.add('hidden');
 });
 
+
+//buscar por voz 
+const voiceSearchBtn = document.getElementById('voice-search')!;
+
+voiceSearchBtn.addEventListener('click', () => {
+  try {
+    const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      throw new Error('Speech recognition not supported');
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      inputFilter.value = transcript;
+      paginaActual = 1;
+      renderPersonajes();
+      renderPaginacion();
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Voice recognition error:', event.error);
+      alert('Error en reconocimiento de voz: ' + event.error);
+    };
+
+    recognition.start();
+  } catch (error) {
+    console.error('Voice recognition setup failed:', error);
+    alert('La función de voz no está disponible en tu navegador');
+  }
+});
+const themeToggle = document.getElementById('theme-toggle')!;
+themeToggle.addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+});
+
+// Al cargar la página
+if (localStorage.getItem('theme') === 'dark') {
+  document.documentElement.classList.add('dark');
+}
 // Inicializar
 obtenerPersonajes();

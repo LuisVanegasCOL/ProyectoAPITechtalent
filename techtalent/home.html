@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bienvenido a Los Simpsons App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Bangers', cursive;
+    }
+    /* Estilos para el modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background-color: #1F2937;
+      color: #FACC15;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      height: 70%;
+      overflow-y: auto; /* Permite hacer scroll si el contenido es grande */
+      animation: fadeIn 0.5s ease-out;
+      position: relative;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #F87171;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .modal-close-btn:hover {
+      background-color: #F43F5E;
+    }
+    /* Animación de entrada */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    /* Estilo para los botones del quiz */
+    .quiz-btn {
+      background-color: #FACC15;
+      color: #111827;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      margin: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .quiz-btn:hover {
+      background-color: #F59E0B;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-yellow-400 flex flex-col items-center justify-center min-h-screen p-6 relative overflow-hidden">
+
+  <!-- Homer Imagen -->
+  <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png" alt="Homer"
+       class="absolute top-5 left-5 w-28 z-10" />
+
+  <!-- Bart Imagen -->
+  <img src="./assets/bart-removebg-preview_1.png" alt="Bart"
+       class="absolute bottom-0 right-0 h-full object-contain pointer-events-none z-0" />
+
+  <div class="z-10 text-center space-y-6">
+    <h1 class="text-6xl drop-shadow-[0_0_15px_#facc15]">Bienvenido a</h1>
+    <h2 class="text-5xl text-yellow-400 drop-shadow-[0_0_10px_#facc15]">Los Simpsons App</h2>
+    <p class="text-gray-300 text-lg">Descubre quizzes, sonidos y diversión con tus personajes favoritos</p>
+
+    <!-- Botones para los quizzes -->
+    <div class="flex justify-center space-x-4">
+      <button id="textQuizBtn" class="quiz-btn">Quiz Texto</button>
+      <button id="audioQuizBtn" class="quiz-btn">Quiz Audio</button>
+    </div>
+
+    <a href="index.html">
+      <button class="mt-6 bg-yellow-400 text-gray-900 text-xl font-bold px-8 py-3 rounded-full hover:bg-yellow-500 hover:scale-105 transition duration-300 shadow-lg">
+        Entrar
+      </button>
+    </a>
+  </div>
+
+  <!-- Modal Quiz Texto -->
+  <div id="textQuizModal" class="modal">
+    <div class="modal-content">
+      <button id="closeTextQuiz" class="modal-close-btn">X</button>
+      <h2 class="text-4xl text-center mb-4">Quiz de Texto</h2>
+      <div id="textQuestions"></div>
+      <button id="submitTextQuiz" class="quiz-btn mt-4">Enviar Respuestas</button>
+      <button id="restartTextQuiz" class="quiz-btn mt-2">Reiniciar Quiz</button>
+      <p id="textQuizResult" class="text-center mt-4"></p>
+    </div>
+  </div>
+
+  <!-- Modal Quiz Audio -->
+  <div id="audioQuizModal" class="modal">
+    <div class="modal-content">
+      <button id="closeAudioQuiz" class="modal-close-btn">X</button>
+      <h2 class="text-4xl text-center mb-4">Quiz de Audio</h2>
+      <div id="audioQuestions"></div>
+      <button id="submitAudioQuiz" class="quiz-btn mt-4">Enviar Respuestas</button>
+      <button id="restartAudioQuiz" class="quiz-btn mt-2">Reiniciar Quiz</button>
+      <p id="audioQuizResult" class="text-center mt-4"></p>
+    </div>
+  </div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-yellow-400 py-4 mt-auto w-full text-center border-t-2 border-gray-600">
+  <p class="text-sm text-white/70">
+    Creado por Luis Vanegas de <span class="text-yellow-400">Tech Talent</span> - 2025 &copy;
+  </p>
+</footer>
+
+<script src="home.js"></script>
+</body>
+
+</html>
